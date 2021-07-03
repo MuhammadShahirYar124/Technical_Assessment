@@ -1,0 +1,49 @@
+#include <iostream> 
+using namespace std;
+#define Character_Count 128
+
+int longestSubstrDitinctChars(char* Str)
+{
+	int n = strlen(Str);
+	int len = 1;
+
+	int * cahracter_visit = new int[sizeof(int) * Character_Count];
+
+	for (int i = 0; i < Character_Count; i++)
+		cahracter_visit[i] = -1;
+
+	cahracter_visit[Str[0]] = 0;
+
+	int p_value;
+	int total_length = 1;
+
+	for (int i = 1; i < n; i++) {
+		p_value = cahracter_visit[Str[i]];
+
+		if (p_value == -1 || i - len > p_value)
+			len++;
+
+		else {
+			if (len > total_length)
+				total_length = len;
+
+			len = i - p_value;
+		}
+		cahracter_visit[Str[i]] = i;
+	}
+	if (len > total_length)
+		total_length = len;
+
+	free(cahracter_visit);
+	return total_length;
+}
+
+int main()
+{
+	char Str[] = "Muhammad Shahiryar";
+	cout << "My string is : " << Str << endl;
+	int len = longestSubstrDitinctChars(Str);
+	cout << "The longest Substring with Ditinct Chars are = " << len << endl;
+	system("pause");
+	return 0;
+}
